@@ -19,7 +19,52 @@ In this way, if we want to add more dataplugs, we just need to implement more da
 # Project structure
 
 To utilize express library, we divide the code to two parts, one is client and the other is server. The server part takes charge of using apis to get data. The client part will decide which chart will be shown and call the server to fetch corresponding data.
+
+The data plugins are located in the server folder such as barchart.ts. The visualization plugins are located in the client folder such as SimpleChart.tsx. The framework will also be located in client folder.
+
+&nbsp;
 ![alt text](./pics/pic1.png)
+
+In the server folder, the server.ts controlls which port to listen to. The routes.ts registers all the routes. Each route calls its corresponding data plugin to fetch data. In the following code snippet, it calls async function getData() to get data. After this, it sends data to the corresponding visualized plugin in the client folder.
+
+```javascipt
+router.get("/api/barchart", (req, res, next) => {
+  getData().then(r => {
+    const result = {xdata: r.xdata, ydata: r.ydata }
+    res.json(result)
+  })
+});
+```
+
+The fetched data object has two arrays to store x-axis data and y-axis data.
+
+```
+const x: string[] = []
+    const y: number[] = []
+    await Promise.all(types.results.map(async (type) => {
+      if (isNamedAPIResource(type)) {
+        const result = await api.getTypeByName(type.name)
+        x.push(type.name)
+        y.push(result.pokemon.length)
+      }
+    }))
+    return {xdata: x, ydata: y }
+```
+
+The following is an example from SimpleChart.ts in client folder. The res variable fetchs data from the server and pass the data to React Api to fill the chart.
+
+```
+try {
+    const res = await fetch('/api/barchart')
+    const mapdata = await res.json()
+    console.log("xxxxxx")
+    console.log(mapdata)
+    setXdata(mapdata.xdata)
+    setYdata(mapdata.ydata)
+    } catch (error) {
+    console.log(error);
+    }
+```
 
 # Plugin interfaces
 
