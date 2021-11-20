@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react';
 import Page from './SimpleChart';
+import Page2 from './TopFireWeight';
 
 const App = (props: AppProps) => {
 	const [greeting, setGreeting] = useState<string>('');
@@ -24,6 +25,7 @@ const App = (props: AppProps) => {
 				<h1 className="text-primary text-center">Hello {greeting}!</h1>
 			</main>
 			<Page />
+			<Page2 />
 		</div>
 	);
 };
