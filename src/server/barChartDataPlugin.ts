@@ -8,10 +8,12 @@ export class BarChartDataPlugin implements DataPlugin {
         const x: string[] = []
         const y: number[] = []
 
-        function isNamedAPIResource(type: NamedAPIResource | APIResource) {
-            return "name" in type;
+        // function isNamedAPIResource(type: NamedAPIResource | APIResource) {
+        //     return "name" in type;
+        // }
+        function isNamedAPIResource(object: any): object is NamedAPIResource {
+            return "name" in object;
         }
-
         await Promise.all(types.results.map(async (type) => {
             if (isNamedAPIResource(type)) {
                 const result = await api.getTypeByName(type.name)
@@ -27,8 +29,9 @@ export class BarChartDataPlugin implements DataPlugin {
         return p
     }
 
-    prepareData(): any {
+    prepareData(): Promise<any> {
         return this.parseData(this.getData())
     }
+
 
 }
