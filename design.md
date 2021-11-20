@@ -1,5 +1,9 @@
 # Domain
 
+
+Pokemon Analysis Framework
+
+
 We will implement a Pokemon query and visualization platform, where Pokemons’ characters including moves, abilities, heights and weights will be present. There are more information we can visualize. It can show the number of pokemons in each type, such as flying, fire, water, and so on. Besides, it can show the top 10 pokemons with high attack or high defense.
 
 For data source, we will use PokeAPI ( https://pokeapi.co/), which is a full RESTful API linked to an extensive database detailing everything about the Pokémon main game series, and requires no authentication. It returns Json through URLs. For example, to query Ditto’s (a Pokemon) data, we can simply enter https://pokeapi.co/api/v2/pokemon/ditto, which returns a JSON object including all Ditto related data.
@@ -27,6 +31,7 @@ Also there are many wrapper libraries using this API. Since we use TypeScript, w
   We use plugins and abstract them into interfaces for extensibility and flexibility. If more features are added in the future, for example, adding new graphs and new data categories, it can be achieved simply by adding new plugins, and no need to change current code.
 
   To be more specified, framework can know which data plugin to use and it calls this data plugin to show the chart. It will register every data plugin, asks the data, and uses React to show the chart. In this way, if we want to add more data plugs, we just need to implement more data plugin classes, and add more components in the web page, where we maximize the extensibility of the project.
+
 
 # Project structure
 
@@ -77,6 +82,7 @@ try {
     console.log(error);
     }
 ```
+
 
 # Plugin interfaces
 
