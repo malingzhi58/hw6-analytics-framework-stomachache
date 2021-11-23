@@ -29,19 +29,22 @@ const App = () => {
 
 
 	return (
-		<div>
-            <FormControl component="fieldset">
-                <FormLabel component="legend">Choose visualization type</FormLabel>
-                <RadioGroup
-                    value={page}
-                    onChange={handleChange}
-                >
-                    <FormControlLabel value="list" control={<Radio />} label="Pokemon List" />
-                    <FormControlLabel value="summary" control={<Radio />} label="Pokemon Summary" />
-                </RadioGroup>
-            </FormControl>
+		<>
+            <div style={{ margin: 10 }}>
+                <FormControl component="fieldset">
+                    <FormLabel component="legend">Choose visualization type</FormLabel>
+                    <RadioGroup
+                        value={page}
+                        onChange={handleChange}
+                        row
+                    >
+                        <FormControlLabel value="list" control={<Radio />} label="Pokemon List" />
+                        <FormControlLabel value="summary" control={<Radio />} label="Pokemon Summary" />
+                    </RadioGroup>
+                </FormControl>
+            </div>
         {page === 'list'? <PokemonCardsPage /> : null }
-		</div>
+		</>
 	);
 };
 
