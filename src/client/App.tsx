@@ -1,14 +1,20 @@
 import * as React from 'react';
 import { useState,useContext, useEffect } from 'react';
 import PokemonCardsPage from './components/PokemonCardsPage';
+// @ts-ignore
 import Radio from '@mui/material/Radio';
+// @ts-ignore
 import RadioGroup from '@mui/material/RadioGroup';
+// @ts-ignore
 import FormControlLabel from '@mui/material/FormControlLabel';
+// @ts-ignore
 import FormControl from '@mui/material/FormControl';
+// @ts-ignore
 import FormLabel from '@mui/material/FormLabel';
 import Store from "./components/Store";
 import { PokemonClient } from "pokenode-ts";
 import { Context } from "./components/Store";
+import PokenmonSummary from "./plugins/PokenmonSummaryPlugin";
 
 
 const App = () => {
@@ -23,7 +29,7 @@ const App = () => {
         async function getPokemonList() {
             const pokemonList = await (await fetch('/api/getpokemonlist')).json();
             dispatch({ type: "SET_POKEMON_LIST", payload: pokemonList });
-        };
+        }
         getPokemonList();
     }, []);
 
@@ -43,7 +49,7 @@ const App = () => {
                     </RadioGroup>
                 </FormControl>
             </div>
-        {page === 'list'? <PokemonCardsPage /> : null }
+        {page === 'list'? <PokemonCardsPage /> : <PokenmonSummary/> }
 		</>
 	);
 };

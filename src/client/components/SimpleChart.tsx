@@ -2,14 +2,16 @@
 import React, {useRef} from 'react';
 import {BarChartVisualPlugin} from "../VisualPlugin";
 
+// the first graph for summary part
 const Page: React.FC = () => {
     const api = new BarChartVisualPlugin()
+
     return api.setData('/api/barchart')
 };
 
 export default Page;
 
-function init(): React.FC {
-    return Page
-}
-export { init }
+// function init(): React.FC {
+//     return Page
+// }
+// export { init }
