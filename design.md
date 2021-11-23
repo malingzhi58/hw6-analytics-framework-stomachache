@@ -108,10 +108,9 @@ interface VisualizationPlugin {
 }
 ```
 
-![alt text](./pics/pic3.png)
-![alt text](./pics/pic4.png)
-![alt text](./pics/pic5.png)
-![alt text](./pics/pic6.png)
+
+
+
 ![alt text](./pics/pic2.png)
 
 # Reference:
