@@ -11,7 +11,7 @@ import {
   Slide,
 } from "@mui/material";
 import Paging from "./Paging";
-// import PokemonDetails from "./PokemonDetails/PokemonDetails";
+import PokemonDetails from "./PokemonDetails";
 import PokeCard from "./PokeCard";
 import React from "react";
 import { Context } from "./Store";
@@ -161,9 +161,9 @@ const PokemonCardsPage = () => {
               : selectedPokemon?.id.toString()
           } - ${selectedPokemon?.name}`}
         </DialogTitle>
-        {/* <DialogContent>
+        <DialogContent>
           <PokemonDetails pokemon={selectedPokemon} />
-        </DialogContent> */}
+        </DialogContent>
       </Dialog>
     </Box>
   );

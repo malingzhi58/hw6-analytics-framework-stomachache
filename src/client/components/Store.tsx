@@ -4,8 +4,6 @@ import Reducer from "./Reducer";
 import { NamedAPIResourceList, Pokemon } from "pokenode-ts";
 
 const initialState: any = {
-  searchText: "",
-  useDreamWorldSprites: false,
   pokemonList: {} as NamedAPIResourceList,
   pokemon: [] as Pokemon[],
 };

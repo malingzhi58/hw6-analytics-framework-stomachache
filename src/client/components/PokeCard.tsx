@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { Card, CardContent, Box, Typography } from "@mui/material";
 import { Pokemon } from "pokenode-ts";
-import { useContext } from "react";
-import { Context } from "./Store";
 
 const PokeCard = ({
   pokemon,
@@ -11,7 +9,6 @@ const PokeCard = ({
   pokemon: Pokemon;
   onClick: () => void;
 }) => {
-  const [state] = useContext(Context);
 
   return (
     <Card
@@ -35,9 +32,7 @@ const PokeCard = ({
           </Typography>
           <img
             src={
-              state.useDreamWorldSprites
-                ? pokemon.sprites.other.dream_world.front_default
-                : pokemon.sprites.front_default
+              pokemon.sprites.front_default
             }
             alt={pokemon.name}
             style={{ maxHeight: 75 }}
