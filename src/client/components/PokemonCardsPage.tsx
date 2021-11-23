@@ -40,11 +40,11 @@ const PokemonCardsPage = () => {
       let pokemon: Pokemon[] = [];
       for (const poke of filteredPokemonList) {
         pokemon.push(await apiClient.getPokemonByName(poke.name));
-    //     console.log(poke.name)
-    //     pokemon.push(await (await fetch('/api/getpokebyname', {
-    //         method: 'POST',
-    //         body: poke.name,
-    //     })).json());
+        //     console.log(poke.name)
+        //     pokemon.push(await (await fetch('/api/getpokebyname', {
+        //         method: 'POST',
+        //         body: poke.name,
+        //     })).json());
 
       }
 
@@ -156,14 +156,15 @@ const PokemonCardsPage = () => {
         fullWidth
       >
         <DialogTitle sx={{ textTransform: "capitalize" }}>
-          {`${
-            (selectedPokemon?.id.toString().length || 0) < 3
-              ? selectedPokemon?.id.toString().padStart(3, "0")
-              : selectedPokemon?.id.toString()
-          } - ${selectedPokemon?.name}`}
+          {`${(selectedPokemon?.id.toString().length || 0) < 3
+            ? selectedPokemon?.id.toString().padStart(3, "0")
+            : selectedPokemon?.id.toString()
+            } - ${selectedPokemon?.name}`}
         </DialogTitle>
         <DialogContent>
-          <PokemonDetails pokemon={selectedPokemon} />
+          <div style={{ margin: 2 }}>
+            <PokemonDetails pokemon={selectedPokemon} />
+          </div>
         </DialogContent>
       </Dialog>
     </Box>
