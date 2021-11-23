@@ -1,4 +1,4 @@
-import { DataPluginInterface } from "./dataPluginInterface";
+import { DataPluginInterface } from "../dataPluginInterface";
 import { PokemonClient } from "pokenode-ts";
 
 export class TopBarChartDataPlugin implements DataPluginInterface {

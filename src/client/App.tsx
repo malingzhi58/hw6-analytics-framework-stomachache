@@ -10,10 +10,10 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 // @ts-ignore
 import FormLabel from '@mui/material/FormLabel';
-import PokemonListPlugin from './plugins/PokemonListPlugin';
+import PokemonListPlugin from './visualizationplugins/PokemonListPlugin';
 import { PokemonClient } from "pokenode-ts";
 import { Context } from "./components/Store";
-import PokenmonSummary from "./plugins/PokenmonSummaryPlugin";
+import PokenmonSummary from "./visualizationplugins/PokenmonSummaryPlugin";
 
 
 const App = () => {
@@ -32,8 +32,7 @@ const App = () => {
         getPokemonList();
     }, []);
 
-
-	return (
+    return (
         <>
             <div style={{ margin: 20 }}>
                 <FormControl component="fieldset">
@@ -48,7 +47,7 @@ const App = () => {
                     </RadioGroup>
                 </FormControl>
             </div>
-        {page === 'list'? <PokemonListPlugin /> : <PokenmonSummary/> }
+            {page === 'list'? <PokemonListPlugin /> : <PokenmonSummary/> }
 		</>
 	);
 };

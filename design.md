@@ -88,6 +88,10 @@ try {
 
 ### Data plugin
 Data plugins may include plugins to fetch different kinds of bar chart data.
+getData is to use website api to fetch the original data sets.
+parseData is to extract, aggregate and trim the original data to get the data that we want to visualize.
+prepareData is the function we will call to export for other component to call. It will combine getData and parseData.
+
 ```typescript
 export interface DataPluginInterface {
     getData: (p?) => any;
@@ -104,6 +108,10 @@ interface VisualizationPlugin {
 }
 ```
 
+![alt text](./pics/pic3.png)
+![alt text](./pics/pic4.png)
+![alt text](./pics/pic5.png)
+![alt text](./pics/pic6.png)
 ![alt text](./pics/pic2.png)
 
 # Reference:

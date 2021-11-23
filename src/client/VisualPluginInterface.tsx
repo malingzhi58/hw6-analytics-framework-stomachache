@@ -1,7 +1,8 @@
 // @ts-ignore
 import React, {useEffect, useRef, useState} from "react";
 
-interface VisualizationPlugin {
+export interface VisualizationPlugin {
     setData: (route: string) => any
 }
+
 
