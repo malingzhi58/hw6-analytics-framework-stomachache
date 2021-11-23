@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { useState,useContext, useEffect } from 'react';
-import PokemonCardsPage from './components/PokemonCardsPage';
 // @ts-ignore
 import Radio from '@mui/material/Radio';
 // @ts-ignore
@@ -11,8 +10,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 // @ts-ignore
 import FormLabel from '@mui/material/FormLabel';
-import PokemonCardsPlugin from './plugins/PokemonCardsPlugin';
-import Store from "./components/Store";
+import PokemonListPlugin from './plugins/PokemonListPlugin';
 import { PokemonClient } from "pokenode-ts";
 import { Context } from "./components/Store";
 import PokenmonSummary from "./plugins/PokenmonSummaryPlugin";
@@ -20,6 +18,7 @@ import PokenmonSummary from "./plugins/PokenmonSummaryPlugin";
 
 const App = () => {
     const [page, setPage] = useState<string>("list")
+    const [state, dispatch] = useContext(Context);
 
     const handleChange = (e) => {
         setPage(e.target.value)
@@ -49,7 +48,7 @@ const App = () => {
                     </RadioGroup>
                 </FormControl>
             </div>
-        {page === 'list'? <PokemonCardsPage /> : <PokenmonSummary/> }
+        {page === 'list'? <PokemonListPlugin /> : <PokenmonSummary/> }
 		</>
 	);
 };

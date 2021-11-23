@@ -4,7 +4,7 @@ import PokemonCardsPage from '../components/PokemonCardsPage';
 import { Context } from "../components/Store";
 
 
-const PokemonCardsPlugin = () => {
+const PokemonListPlugin = () => {
 	const [state, dispatch] = useContext(Context);
 
 	useEffect(() => {
@@ -24,4 +24,4 @@ const PokemonCardsPlugin = () => {
 };
 
 
-export default PokemonCardsPlugin;
+export default PokemonListPlugin;
