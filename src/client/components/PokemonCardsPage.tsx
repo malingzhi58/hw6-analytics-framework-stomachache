@@ -13,6 +13,7 @@ import {
 import Paging from "./Paging";
 import PokemonDetails from "./PokemonDetails";
 import PokeCard from "./PokeCard";
+// @ts-ignore
 import React from "react";
 import { Context } from "./Store";
 
