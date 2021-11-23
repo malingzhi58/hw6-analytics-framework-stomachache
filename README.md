@@ -53,11 +53,11 @@ Since we use React.js framework as frontend, we followed the functional componen
 
 ### barchart
 
-xxx
+After call this api, it can initialize a BarChartDataPlugin class. Its prepareData function will be called to prepare data and send the data to visualization plugin.
 
-### topweightfire
+### topfireweight
 
-xxx
+After call this api, it can initialize a TopBarChartDataPlugin class. Its prepareData function will be called to prepare data and send the data to visualization plugin.
 
 ### getpokemonlist
 

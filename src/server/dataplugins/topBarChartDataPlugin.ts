@@ -34,7 +34,7 @@ export class TopBarChartDataPlugin implements DataPluginInterface {
             }
             return 0;
         })
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < Math.min(10,sortedArray.length); i++) {
             x.push(sortedArray[i].name)
             y.push(sortedArray[i].weight)
         }
