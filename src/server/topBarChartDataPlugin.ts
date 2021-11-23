@@ -1,7 +1,7 @@
-import {DataPlugin} from "./DataPlugin";
-import {PokemonClient} from "pokenode-ts";
+import { DataPluginInterface } from "./DataPluginInterface";
+import { PokemonClient } from "pokenode-ts";
 
-export class TopBarChartDataPlugin implements DataPlugin {
+export class TopBarChartDataPlugin implements DataPluginInterface {
     async getData(): Promise<any> {
         const api = new PokemonClient()
         const typeres = await api.getTypeByName("fire")

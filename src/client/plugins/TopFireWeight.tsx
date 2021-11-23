@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {BarChartVisualPlugin} from "./VisualPlugin";
+import {BarChartVisualPlugin} from "../VisualPlugin";
 import ReactECharts from "echarts-for-react";
 
 const Page2: React.FC = () => {
