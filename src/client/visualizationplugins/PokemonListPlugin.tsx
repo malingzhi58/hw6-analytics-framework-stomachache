@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import PokemonCardsPage from '../components/PokemonCardsPage';
 import { Context } from "../components/Store";
 

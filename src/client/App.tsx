@@ -1,17 +1,11 @@
 import * as React from 'react';
-import { useState,useContext, useEffect } from 'react';
-// @ts-ignore
+import { useState, useContext, useEffect } from 'react';
 import Radio from '@mui/material/Radio';
-// @ts-ignore
 import RadioGroup from '@mui/material/RadioGroup';
-// @ts-ignore
 import FormControlLabel from '@mui/material/FormControlLabel';
-// @ts-ignore
 import FormControl from '@mui/material/FormControl';
-// @ts-ignore
 import FormLabel from '@mui/material/FormLabel';
 import PokemonListPlugin from './visualizationplugins/PokemonListPlugin';
-import { PokemonClient } from "pokenode-ts";
 import { Context } from "./components/Store";
 import PokenmonSummary from "./visualizationplugins/PokenmonSummaryPlugin";
 
@@ -20,13 +14,13 @@ const App = () => {
     const [page, setPage] = useState<string>("list")
     const [state, dispatch] = useContext(Context);
 
-    const handleChange = (e) => {
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPage(e.target.value)
     }
 
     useEffect(() => {
         async function getPokemonList() {
-            const pokemonList = await (await fetch('/api/getpokemonlist')).json();
+            const pokemonList: string = await (await fetch('/api/getpokemonlist')).json();
             dispatch({ type: "SET_POKEMON_LIST", payload: pokemonList });
         }
         getPokemonList();
@@ -47,9 +41,9 @@ const App = () => {
                     </RadioGroup>
                 </FormControl>
             </div>
-            {page === 'list'? <PokemonListPlugin /> : <PokenmonSummary/> }
-		</>
-	);
+            {page === 'list' ? <PokemonListPlugin /> : <PokenmonSummary />}
+        </>
+    );
 };
 
 
