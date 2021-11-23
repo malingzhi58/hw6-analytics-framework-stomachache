@@ -8,3 +8,8 @@ const Page: React.FC = () => {
 };
 
 export default Page;
+
+function init(): React.FC {
+    return Page
+}
+export { init }
