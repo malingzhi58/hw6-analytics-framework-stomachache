@@ -6,36 +6,8 @@ import { TopBarChartDataPlugin } from "./dataplugins/topBarChartDataPlugin";
 import { getPokemonListPlugin } from "./dataplugins/getPokemonListPlugin";
 import { getPokemonByNamePlugin } from "./dataplugins/getPokemonByNamePlugin";
 
+
 const router = express.Router();
-
-router.get("/api/hello", (req, res, next) => {
-    let name = "";
-    (async () => {
-        const api = new PokemonClient();
-        await api
-            .getPokemonByName("luxray")
-            .then((data) => {
-                name = data.name;
-                // console.log(name);
-                res.json(name);
-            }) // will output "Luxray"
-            .catch((error) => console.error(error));
-    })();
-    // (async () => {
-    //     const api = new PokemonClient();
-    //     await api
-    //         .getTypeByName("fire")
-    //         .then((data) => {
-    //             for (let i = 0; i < data.pokemon.length; i++) {
-    //                 let curname =data.pokemon[i].pokemon.name
-    //
-    //                 console.log();
-    //             }
-    //         }) // will output "Luxray"
-    //         .catch((error) => console.error(error));
-    // })();
-});
-
 
 router.get("/api/barchart", (req, res, next) => {
     const barchart = new BarChartDataPlugin()
@@ -61,14 +33,5 @@ router.get("/api/getpokemonlist", (req, res, next) => {
     })
 });
 
-router.post("/api/getpokebyname", (req, res, next) => {
-    const pokemonList = new getPokemonByNamePlugin()
-    console.log('xxxxxx')
-    console.log(req)
-    pokemonList.prepareData(req.params).then(r => {
-        res.json(r)
-    })
-});
 
 export default router;
-

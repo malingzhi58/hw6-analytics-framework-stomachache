@@ -2,6 +2,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import ReactECharts from "echarts-for-react";
 import {VisualizationPlugin} from "./VisualPluginInterface"
+
 class BarChartVisualPlugin implements VisualizationPlugin {
     setData(route: string): any {
         const [xdata, setXdata] = useState<String[]>([]);

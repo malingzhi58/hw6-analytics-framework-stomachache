@@ -6,18 +6,14 @@ import ReactECharts from "echarts-for-react";
 const PokemonDetails = ({ pokemon }: { pokemon: Pokemon | undefined }) => {
   const instance = useRef(null);
   return (
-    <Card variant="outlined">
+    <Card>
       <CardContent>
-        <Typography
-          variant="h6"
-          sx={{ width: "100%", fontWeight: "bold" }}
-          textAlign="center"
-        >
-          Stats
-        </Typography>
         <ReactECharts
           ref={instance}
           option={{
+            title: {
+              text: 'Detail Stats',
+            },
             tooltip: {
               trigger: 'axis',
               axisPointer: {

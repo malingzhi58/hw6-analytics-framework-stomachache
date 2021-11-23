@@ -15,7 +15,7 @@ export class TopBarChartDataPlugin implements DataPluginInterface {
                     // x.push(data.name)
                     // y.push(data.weight)
                     array.push({name: data.name, weight: data.weight})
-                    console.log(data.name + ":" + data.weight)
+                    // console.log(data.name + ":" + data.weight)
                 })
                 .catch((error) => console.error(error))
         }))
