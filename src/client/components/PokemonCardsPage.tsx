@@ -40,12 +40,6 @@ const PokemonCardsPage = () => {
       let pokemon: Pokemon[] = [];
       for (const poke of filteredPokemonList) {
         pokemon.push(await apiClient.getPokemonByName(poke.name));
-        //     console.log(poke.name)
-        //     pokemon.push(await (await fetch('/api/getpokebyname', {
-        //         method: 'POST',
-        //         body: poke.name,
-        //     })).json());
-
       }
 
       dispatch({ type: "SET_POKEMON", payload: pokemon });
