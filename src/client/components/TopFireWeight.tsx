@@ -1,6 +1,6 @@
 // @ts-ignore
 import React, {useEffect, useRef, useState} from 'react';
-import {BarChartVisualPlugin} from "../VisualPlugin";
+import {BarChartVisualPlugin} from "../BarChartVisualPlugin";
 
 // the 2nd graph for summary part
 const Page2: React.FC = () => {

@@ -44,7 +44,7 @@ The data plugins are located in the server folder such as barchart.ts. The visua
 
 In the server folder, the server.ts controlls which port to listen to. The routes.ts registers all the routes. Each route calls its corresponding data plugin to fetch data. In the following code snippet, it calls async function getData() to get data. After this, it sends data to the corresponding visualized plugin in the client folder.
 
-```javascipt
+```typescript
 router.get("/api/barchart", (req, res, next) => {
   getData().then(r => {
     const result = {xdata: r.xdata, ydata: r.ydata }
@@ -55,7 +55,7 @@ router.get("/api/barchart", (req, res, next) => {
 
 The fetched data object has two arrays to store x-axis data and y-axis data.
 
-```
+```typescript
 const x: string[] = []
     const y: number[] = []
     await Promise.all(types.results.map(async (type) => {
@@ -70,7 +70,7 @@ const x: string[] = []
 
 The following is an example from SimpleChart.ts in client folder. The res variable fetchs data from the server and pass the data to React Api to fill the chart.
 
-```
+```typescript
 try {
     const res = await fetch('/api/barchart')
     const mapdata = await res.json()
@@ -86,9 +86,24 @@ try {
 
 # Plugin interfaces
 
+### Data plugin
 Data plugins may include plugins to fetch different kinds of bar chart data.
-
+```typescript
+export interface DataPluginInterface {
+    getData: (p?) => any;
+    parseData: (p: any) => any;
+    prepareData: (p?) => any;
+    // onRegister: () => void;
+}
+```
+### Visualization plugin
 Visualization plugins will use x,y-axis data to draw the graph. Here is an example shows the number of pokemons from different types.
+```typescript
+interface VisualizationPlugin {
+    setData: (route: string) => any
+}
+```
+
 ![alt text](./pics/pic2.png)
 
 # Reference:

@@ -1,12 +1,7 @@
-// @ts-ignore
 import React, {useEffect, useRef, useState} from "react";
 import ReactECharts from "echarts-for-react";
 
-interface VisualizationPlugin {
-    setData: (route: string) => any
-}
-
- class BarChartVisualPlugin implements VisualizationPlugin {
+class BarChartVisualPlugin implements VisualizationPlugin {
     setData(route: string): any {
         const [xdata, setXdata] = useState<String[]>([]);
         const [ydata, setYdata] = useState<number[]>([]);
@@ -55,4 +50,5 @@ interface VisualizationPlugin {
         );
     }
 }
+
 export {BarChartVisualPlugin};
