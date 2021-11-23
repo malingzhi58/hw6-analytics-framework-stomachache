@@ -1,6 +1,6 @@
 // @ts-ignore
 import React, {useRef} from 'react';
-import {BarChartVisualPlugin} from "./VisualPlugin";
+import {BarChartVisualPlugin} from "../VisualPlugin";
 
 const Page: React.FC = () => {
     const api = new BarChartVisualPlugin()

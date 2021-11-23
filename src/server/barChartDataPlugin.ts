@@ -1,7 +1,7 @@
-import {DataPlugin} from "./DataPlugin";
+import { DataPluginInterface } from "./DataPluginInterface";
 import {APIResource, NamedAPIResource, PokemonClient} from "pokenode-ts";
 
-export class BarChartDataPlugin implements DataPlugin {
+export class BarChartDataPlugin implements DataPluginInterface {
     async getData(): Promise<any> {
         const api = new PokemonClient()
         const types = await api.listTypes()
@@ -32,6 +32,5 @@ export class BarChartDataPlugin implements DataPlugin {
     prepareData(): Promise<any> {
         return this.parseData(this.getData())
     }
-
 
 }
