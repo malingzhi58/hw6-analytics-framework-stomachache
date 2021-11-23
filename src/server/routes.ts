@@ -4,7 +4,6 @@ import { PokemonClient, } from "pokenode-ts";
 import { BarChartDataPlugin } from "./dataplugins/barChartDataPlugin";
 import { TopBarChartDataPlugin } from "./dataplugins/topBarChartDataPlugin";
 import { getPokemonListPlugin } from "./dataplugins/getPokemonListPlugin";
-import { getPokemonByNamePlugin } from "./dataplugins/getPokemonByNamePlugin";
 
 
 const router = express.Router();
