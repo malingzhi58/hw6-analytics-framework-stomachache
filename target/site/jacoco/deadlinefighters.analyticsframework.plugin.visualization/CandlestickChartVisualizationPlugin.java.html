@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CandlestickChartVisualizationPlugin.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hw6-analytics-framework-deadline-fighters</a> &gt; <a href="index.source.html" class="el_package">deadlinefighters.analyticsframework.plugin.visualization</a> &gt; <span class="el_source">CandlestickChartVisualizationPlugin.java</span></div><h1>CandlestickChartVisualizationPlugin.java</h1><pre class="source lang-java linenums">package deadlinefighters.analyticsframework.plugin.visualization;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import deadlinefighters.analyticsframework.framework.core.Framework;
+import deadlinefighters.analyticsframework.framework.core.VisualizationPlugin;
+import deadlinefighters.analyticsframework.framework.model.AggregatedStockQuotes;
+
+import java.util.List;
+
+/**
+ * This is a candlestick chart that supports 1 stock only
+ */
+<span class="nc" id="L13">public class CandlestickChartVisualizationPlugin implements VisualizationPlugin {</span>
+
+    private Framework framework;
+    private static final String NAME = &quot;Candlestick chart&quot;;
+
+    @Override
+    public String getName() {
+<span class="nc" id="L20">        return NAME;</span>
+    }
+
+    @Override
+    public void onRegister(Framework framework) {
+<span class="nc" id="L25">        this.framework = framework;</span>
+<span class="nc" id="L26">    }</span>
+
+    @Override
+    public boolean isSupported(int symbolCount) {
+<span class="nc bnc" id="L30" title="All 2 branches missed.">        return symbolCount == 1;</span>
+    }
+
+    @Override
+    public String render(List&lt;AggregatedStockQuotes&gt; data) {
+<span class="nc" id="L35">        StringBuilder sb = new StringBuilder();</span>
+        try {
+<span class="nc" id="L37">            sb.append(&quot;&lt;script&gt;\n&quot;);</span>
+<span class="nc" id="L38">            sb.append(VisualizationHelper.quotesToJavascript(data));</span>
+<span class="nc" id="L39">            sb.append(&quot;&quot;&quot;</span>
+
+                var trace = {
+                  decreasing: {line: {color: '#7F7F7F'}},
+                  increasing: {line: {color: '#17BECF'}},
+
+                  line: {color: 'rgba(31,119,180,1)'},
+                  type: 'candlestick',
+                  xaxis: 'x',
+                  yaxis: 'y',
+                  x: [],
+                  close: [],
+                  high: [],
+                  low: [],
+                  open: [],
+                };
+
+                aggregated[0].daily.forEach(q =&gt; {
+                  if (q.date &lt;= &quot;2017-01-01&quot;) {
+                    return;
+                  }
+                  trace.x.push(q.date);
+                  trace.close.push(q.close);
+                  trace.high.push(q.high);
+                  trace.low.push(q.low);
+                  trace.open.push(q.open);
+                });
+                var data = [trace];
+
+                var layout = {
+                  dragmode: 'zoom',
+                  margin: {
+                    r: 10,
+                    t: 25,
+                    b: 40,
+                    l: 60
+                  },
+                  showlegend: false,
+                  xaxis: {
+                    autorange: true,
+                    title: 'Date',
+                    type: 'date'
+                  },
+                  yaxis: {
+                    autorange: true,
+                    type: 'linear'
+                  }
+                };
+                Plotly.newPlot('myDiv', data, layout);
+
+                &quot;&quot;&quot;);
+<span class="nc" id="L90">            sb.append(&quot;&lt;/script&gt;\n&quot;);</span>
+<span class="nc" id="L91">            sb.append(&quot;&lt;div id=\&quot;myDiv\&quot; /&gt;&quot;);</span>
+<span class="nc" id="L92">            return sb.toString();</span>
+<span class="nc" id="L93">        } catch (JsonProcessingException e) {</span>
+<span class="nc" id="L94">            return e.toString();</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

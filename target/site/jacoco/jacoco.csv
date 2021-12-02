@@ -1,0 +1,20 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+hw6-analytics-framework-deadline-fighters,deadlinefighters.analyticsframework,Application,8,0,0,0,3,0,2,0,2,0
+hw6-analytics-framework-deadline-fighters,deadlinefighters.analyticsframework.controller,ApiRestController,247,0,18,0,57,0,22,0,13,0
+hw6-analytics-framework-deadline-fighters,deadlinefighters.analyticsframework.plugin.visualization,BubbleChartVisualizationPlugin,51,0,4,0,14,0,7,0,5,0
+hw6-analytics-framework-deadline-fighters,deadlinefighters.analyticsframework.plugin.visualization,LineChartVisualizationPlugin,51,0,4,0,14,0,7,0,5,0
+hw6-analytics-framework-deadline-fighters,deadlinefighters.analyticsframework.plugin.visualization,CandlestickChartVisualizationPlugin,48,0,2,0,14,0,6,0,5,0
+hw6-analytics-framework-deadline-fighters,deadlinefighters.analyticsframework.plugin.visualization,VisualizationHelper,11,0,0,0,3,0,3,0,3,0
+hw6-analytics-framework-deadline-fighters,deadlinefighters.analyticsframework.framework.core,FrameworkImpl,56,457,6,28,12,97,7,25,3,12
+hw6-analytics-framework-deadline-fighters,deadlinefighters.analyticsframework.framework.core,FirstDayOfQuarter,0,23,0,0,0,3,0,2,0,2
+hw6-analytics-framework-deadline-fighters,deadlinefighters.analyticsframework.helper,ObjectMapperInstance,24,0,2,0,7,0,4,0,3,0
+hw6-analytics-framework-deadline-fighters,deadlinefighters.analyticsframework.framework.model,AggregatedStockQuotes,36,27,0,0,16,10,10,3,10,3
+hw6-analytics-framework-deadline-fighters,deadlinefighters.analyticsframework.framework.model,StockQuotesResult,42,22,2,2,9,7,4,5,3,4
+hw6-analytics-framework-deadline-fighters,deadlinefighters.analyticsframework.framework.model,VisualizationPluginsSupport,23,0,0,0,10,0,5,0,5,0
+hw6-analytics-framework-deadline-fighters,deadlinefighters.analyticsframework.framework.model,DataPluginInput,12,21,0,0,6,8,3,4,3,4
+hw6-analytics-framework-deadline-fighters,deadlinefighters.analyticsframework.framework.model,ImportDataResult,8,26,1,3,4,7,3,5,2,4
+hw6-analytics-framework-deadline-fighters,deadlinefighters.analyticsframework.framework.model,StockQuote,58,58,9,1,16,16,12,9,7,9
+hw6-analytics-framework-deadline-fighters,deadlinefighters.analyticsframework.plugin.data,WebAPIAlphaVantageDataPlugin.new Supplier() {...},7,90,1,7,3,20,1,5,0,2
+hw6-analytics-framework-deadline-fighters,deadlinefighters.analyticsframework.plugin.data,CSVFileDataPlugin,10,94,0,2,5,17,3,6,3,5
+hw6-analytics-framework-deadline-fighters,deadlinefighters.analyticsframework.plugin.data,WebAPIAlphaVantageDataPlugin,6,46,0,2,3,18,2,6,2,5
+hw6-analytics-framework-deadline-fighters,deadlinefighters.analyticsframework.plugin.data,CSVFileDataPlugin.new Supplier() {...},8,192,2,16,2,35,2,9,0,2

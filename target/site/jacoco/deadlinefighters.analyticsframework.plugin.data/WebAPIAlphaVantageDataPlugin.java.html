@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>WebAPIAlphaVantageDataPlugin.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hw6-analytics-framework-deadline-fighters</a> &gt; <a href="index.source.html" class="el_package">deadlinefighters.analyticsframework.plugin.data</a> &gt; <span class="el_source">WebAPIAlphaVantageDataPlugin.java</span></div><h1>WebAPIAlphaVantageDataPlugin.java</h1><pre class="source lang-java linenums">package deadlinefighters.analyticsframework.plugin.data;
+
+import com.crazzyghost.alphavantage.AlphaVantage;
+import com.crazzyghost.alphavantage.Config;
+import com.crazzyghost.alphavantage.parameters.OutputSize;
+import com.crazzyghost.alphavantage.timeseries.response.StockUnit;
+import com.crazzyghost.alphavantage.timeseries.response.TimeSeriesResponse;
+import deadlinefighters.analyticsframework.framework.core.DataPlugin;
+import deadlinefighters.analyticsframework.framework.core.Framework;
+import deadlinefighters.analyticsframework.framework.model.StockQuote;
+import deadlinefighters.analyticsframework.framework.model.StockQuotesResult;
+import okhttp3.OkHttpClient;
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.IOException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
+import java.util.function.Supplier;
+
+/**
+ * The API key should be registered from the AlphaVantage website,
+ * and passed into the arg field
+ */
+<span class="fc" id="L27">public class WebAPIAlphaVantageDataPlugin implements DataPlugin {</span>
+
+    private static final String NAME = &quot;Web API - Alpha Vantage&quot;;
+    protected static final String NULL_API_KEY_MESSAGE = &quot;API key is empty&quot;;
+
+    private Framework framework;
+
+    protected OkHttpClient getHttpClient() {
+<span class="fc" id="L35">        return new OkHttpClient.Builder()</span>
+<span class="fc" id="L36">            .connectTimeout(10, TimeUnit.SECONDS)</span>
+<span class="fc" id="L37">            .build();</span>
+    }
+
+    @Override
+    public String getName() {
+<span class="nc" id="L42">        return NAME;</span>
+    }
+
+    @Override
+    public void onRegister(Framework f) {
+<span class="nc" id="L47">        framework = f;</span>
+<span class="nc" id="L48">    }</span>
+
+    @Override
+    public void openConnection(String arg) throws IOException {
+<span class="fc bfc" id="L52" title="All 2 branches covered.">        if (StringUtils.isBlank(arg)) {</span>
+<span class="fc" id="L53">            throw new IOException(NULL_API_KEY_MESSAGE);</span>
+        }
+
+<span class="fc" id="L56">        Config cfg = Config.builder()</span>
+<span class="fc" id="L57">            .key(arg)// arg is the api key</span>
+<span class="fc" id="L58">            .timeOut(10)</span>
+<span class="fc" id="L59">            .httpClient(getHttpClient())</span>
+<span class="fc" id="L60">            .build();</span>
+<span class="fc" id="L61">        AlphaVantage.api().init(cfg);</span>
+<span class="fc" id="L62">    }</span>
+
+    @Override
+    public CompletableFuture&lt;StockQuotesResult&gt; getStockQuotes(
+        List&lt;String&gt; symbols) {
+<span class="fc" id="L67">        CompletableFuture&lt;StockQuotesResult&gt; stockQuotesResultCompletableFuture</span>
+<span class="fc" id="L68">            = CompletableFuture.supplyAsync(new Supplier&lt;StockQuotesResult&gt;() {</span>
+            @Override
+            public StockQuotesResult get() {
+<span class="fc" id="L71">                List&lt;StockQuote&gt; stockQuotes = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L72">                String errorMessage = null;</span>
+
+<span class="fc bfc" id="L74" title="All 2 branches covered.">                for (String symbol : symbols) {</span>
+<span class="fc" id="L75">                    TimeSeriesResponse response = AlphaVantage.api()</span>
+<span class="fc" id="L76">                        .timeSeries()</span>
+<span class="fc" id="L77">                        .daily()</span>
+<span class="fc" id="L78">                        .forSymbol(symbol)</span>
+<span class="fc" id="L79">                        .outputSize(OutputSize.FULL)</span>
+<span class="fc" id="L80">                        .fetchSync();</span>
+
+<span class="fc bfc" id="L82" title="All 2 branches covered.">                    if (response.getErrorMessage() != null) {</span>
+<span class="pc bpc" id="L83" title="1 of 2 branches missed.">                        if (errorMessage == null) {</span>
+<span class="fc" id="L84">                            errorMessage = symbol + &quot;: &quot; + response.getErrorMessage();</span>
+                        } else {
+<span class="nc" id="L86">                            errorMessage =</span>
+<span class="nc" id="L87">                                errorMessage + &quot;\n&quot; + symbol + &quot;: &quot; + response.getErrorMessage();</span>
+                        }
+<span class="nc" id="L89">                        continue;</span>
+                    }
+
+<span class="fc" id="L92">                    List&lt;StockUnit&gt; stockUnits = response.getStockUnits();</span>
+<span class="fc bfc" id="L93" title="All 2 branches covered.">                    for (StockUnit stockUnit : stockUnits) {</span>
+<span class="fc" id="L94">                        stockQuotes.add(new StockQuote(symbol, LocalDate.parse(stockUnit.getDate()), stockUnit.getOpen(),</span>
+<span class="fc" id="L95">                            stockUnit.getClose(), stockUnit.getHigh(), stockUnit.getLow()));</span>
+<span class="fc" id="L96">                    }</span>
+<span class="fc" id="L97">                }</span>
+<span class="fc" id="L98">                return new StockQuotesResult(stockQuotes, errorMessage);</span>
+            }
+        });
+<span class="fc" id="L101">        return stockQuotesResultCompletableFuture;</span>
+    }
+
+    @Override
+    public void closeConnection() throws IOException {
+<span class="fc" id="L106">        AlphaVantage.api().init(null);</span>
+<span class="fc" id="L107">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

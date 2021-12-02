@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ImportDataResult.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hw6-analytics-framework-deadline-fighters</a> &gt; <a href="index.source.html" class="el_package">deadlinefighters.analyticsframework.framework.model</a> &gt; <span class="el_source">ImportDataResult.java</span></div><h1>ImportDataResult.java</h1><pre class="source lang-java linenums">package deadlinefighters.analyticsframework.framework.model;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.List;
+
+/**
+ * Result for import data
+ */
+public class ImportDataResult {
+    private List&lt;StockQuotesResult&gt; stockQuotesResults;
+    private List&lt;String&gt; errorMessages;
+
+    /**
+     * construct a new instance
+     * @param stockQuotesResults stock quotes results
+     * @param errorMessages list of errorMessages, if any
+     */
+<span class="fc" id="L19">    public ImportDataResult(List&lt;StockQuotesResult&gt; stockQuotesResults, List&lt;String&gt; errorMessages) {</span>
+<span class="fc" id="L20">        this.stockQuotesResults = stockQuotesResults;</span>
+<span class="fc" id="L21">        this.errorMessages = errorMessages;</span>
+<span class="fc" id="L22">    }</span>
+
+    /**
+     * Check if result has error
+     * @return a boolean indicating whether it has any error messages
+     */
+    @JsonProperty
+    public boolean hasError() {
+<span class="pc bpc" id="L30" title="1 of 4 branches missed.">        return errorMessages != null &amp;&amp; !errorMessages.isEmpty();</span>
+    }
+
+    /**
+     * Get stock quote results
+     * @return a list of stock quote results
+     */
+    public List&lt;StockQuotesResult&gt; getStockQuotesResults() {
+<span class="fc" id="L38">        return stockQuotesResults;</span>
+    }
+
+    /**
+     * Set stock quote results
+     * @param stockQuotesResults a list of stock quote results
+     */
+    public void setStockQuotesResults(List&lt;StockQuotesResult&gt; stockQuotesResults) {
+<span class="nc" id="L46">        this.stockQuotesResults = stockQuotesResults;</span>
+<span class="nc" id="L47">    }</span>
+
+    /**
+     * Get error messages
+     * @return a list of error messages
+     */
+    public List&lt;String&gt; getErrorMessages() {
+<span class="fc" id="L54">        return errorMessages;</span>
+    }
+
+    /**
+     * Set error messages
+     * @param errorMessages a list of error messages
+     */
+    public void setErrorMessages(List&lt;String&gt; errorMessages) {
+<span class="nc" id="L62">        this.errorMessages = errorMessages;</span>
+<span class="nc" id="L63">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

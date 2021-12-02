@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LineChartVisualizationPlugin.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hw6-analytics-framework-deadline-fighters</a> &gt; <a href="index.source.html" class="el_package">deadlinefighters.analyticsframework.plugin.visualization</a> &gt; <span class="el_source">LineChartVisualizationPlugin.java</span></div><h1>LineChartVisualizationPlugin.java</h1><pre class="source lang-java linenums">package deadlinefighters.analyticsframework.plugin.visualization;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import deadlinefighters.analyticsframework.framework.core.Framework;
+import deadlinefighters.analyticsframework.framework.core.VisualizationPlugin;
+import deadlinefighters.analyticsframework.framework.model.AggregatedStockQuotes;
+
+import java.util.List;
+
+/**
+ * This is a line chart that supports 1-2 stocks
+ */
+<span class="nc" id="L13">public class LineChartVisualizationPlugin implements VisualizationPlugin {</span>
+
+    private Framework framework;
+    private static final String NAME = &quot;Line chart (1-2 stocks)&quot;;
+
+    @Override
+    public String getName() {
+<span class="nc" id="L20">        return NAME;</span>
+    }
+
+    @Override
+    public void onRegister(Framework framework) {
+<span class="nc" id="L25">        this.framework = framework;</span>
+<span class="nc" id="L26">    }</span>
+
+    @Override
+    public boolean isSupported(int symbolCount) {
+<span class="nc bnc" id="L30" title="All 4 branches missed.">        return symbolCount &gt;= 1 &amp;&amp; symbolCount &lt;= 2;</span>
+    }
+
+    @Override
+    public String render(List&lt;AggregatedStockQuotes&gt; data) {
+<span class="nc" id="L35">        StringBuilder sb = new StringBuilder();</span>
+        try {
+<span class="nc" id="L37">            sb.append(&quot;&lt;script&gt;\n&quot;);</span>
+<span class="nc" id="L38">            sb.append(VisualizationHelper.quotesToJavascript(data));</span>
+<span class="nc" id="L39">            sb.append(&quot;&quot;&quot;</span>
+                var data = aggregated.map((s, i) =&gt; {
+                  let trace = {
+                    x: [],
+                    y: [],
+                    name: s.symbol,
+                    type: 'scatter',
+                  };
+                  if (i == 1) {
+                    trace['yaxis'] = 'y2';
+                  }
+                  s.weekly.forEach(q =&gt; {
+                    trace.x.push(q.date);
+                    trace.y.push(q.close);
+                  });
+                  return trace;
+                });
+
+                var layout = {
+                  dragmode: 'zoom',
+                  title: 'Weekly stock prices - ' + aggregated[0].symbol + (aggregated.length == 2 ? ` vs ${aggregated[1].symbol}` : ''),
+                  xaxis: {
+                    autorange: true,
+                    title: 'Date',
+                    type: 'date'
+                  },
+                  yaxis: {title: aggregated[0].symbol, autorange: true},
+                };
+                if (aggregated.length == 2) {
+                  layout['yaxis2'] = {
+                    title: aggregated[1].symbol,
+                    autorange: true,
+                    titlefont: {color: 'rgb(148, 103, 189)'},
+                    tickfont: {color: 'rgb(148, 103, 189)'},
+                    overlaying: 'y',
+                    side: 'right'
+                  }
+                }
+                Plotly.newPlot('myDiv', data, layout);
+
+                &quot;&quot;&quot;);
+<span class="nc" id="L80">            sb.append(&quot;&lt;/script&gt;\n&quot;);</span>
+<span class="nc" id="L81">            sb.append(&quot;&lt;div id=\&quot;myDiv\&quot; /&gt;&quot;);</span>
+<span class="nc" id="L82">            return sb.toString();</span>
+<span class="nc" id="L83">        } catch (JsonProcessingException e) {</span>
+<span class="nc" id="L84">            return e.toString();</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

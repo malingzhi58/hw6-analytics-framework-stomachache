@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CSVFileDataPlugin.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">hw6-analytics-framework-deadline-fighters</a> &gt; <a href="index.source.html" class="el_package">deadlinefighters.analyticsframework.plugin.data</a> &gt; <span class="el_source">CSVFileDataPlugin.java</span></div><h1>CSVFileDataPlugin.java</h1><pre class="source lang-java linenums">package deadlinefighters.analyticsframework.plugin.data;
+
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+import com.opencsv.enums.CSVReaderNullFieldIndicator;
+import deadlinefighters.analyticsframework.framework.core.DataPlugin;
+import deadlinefighters.analyticsframework.framework.core.Framework;
+import deadlinefighters.analyticsframework.framework.model.StockQuote;
+import deadlinefighters.analyticsframework.framework.model.StockQuotesResult;
+import org.apache.commons.io.input.BOMInputStream;
+import org.apache.commons.lang3.StringUtils;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
+import java.util.function.Supplier;
+
+/**
+ * Import data from CSV(comma-separated values) file
+ *
+ * It should have the following columns:
+ * symbol,date,open,high,low,close
+ *
+ * Symbol, date and close are required columns
+ *
+ * Date format: yyyy-MM-dd
+ *
+ * Example: src/main/resources/daily_IBM.csv (note: volume is ignored)
+ */
+<span class="fc" id="L41">public class CSVFileDataPlugin implements DataPlugin {</span>
+
+    private static final String NAME = &quot;CSV local file&quot;;
+<span class="fc" id="L44">    private static final String[] TARGET_COL = {&quot;symbol&quot;, &quot;date&quot;,</span>
+        &quot;open&quot;, &quot;high&quot;, &quot;low&quot;, &quot;close&quot;};
+
+    private Framework framework;
+    private CSVReader csvReader;
+
+
+    @Override
+    public String getName() {
+<span class="nc" id="L53">        return NAME;</span>
+    }
+
+    @Override
+    public void onRegister(Framework f) {
+<span class="nc" id="L58">        framework = f;</span>
+<span class="nc" id="L59">    }</span>
+
+    @Override
+    public void openConnection(String arg) throws IOException {
+<span class="fc" id="L63">        File file = new File(arg);</span>
+<span class="fc" id="L64">        InputStream targetStream = new FileInputStream(file);</span>
+<span class="fc" id="L65">        Reader reader = new InputStreamReader(new BOMInputStream(targetStream), &quot;UTF-8&quot;);</span>
+<span class="fc" id="L66">        csvReader = new CSVReaderBuilder(reader)</span>
+            // both two separators, two quotes will be treated as null
+<span class="fc" id="L68">            .withFieldAsNull(CSVReaderNullFieldIndicator.BOTH)</span>
+<span class="fc" id="L69">            .build();</span>
+<span class="fc" id="L70">    }</span>
+
+    protected int[] getColIndex(String[] headers) {
+<span class="fc" id="L73">        int[] colIndex = new int[TARGET_COL.length];</span>
+<span class="fc" id="L74">        List&lt;String&gt; headerList = Arrays.asList(headers);</span>
+<span class="fc bfc" id="L75" title="All 2 branches covered.">        for (int i = 0; i &lt; TARGET_COL.length; i++) {</span>
+<span class="fc" id="L76">            colIndex[i] = headerList.indexOf(TARGET_COL[i]);</span>
+        }
+<span class="fc" id="L78">        return colIndex;</span>
+    }
+
+    @Override
+    public CompletableFuture&lt;StockQuotesResult&gt; getStockQuotes(
+        List&lt;String&gt; symbols) {
+<span class="fc" id="L84">        CompletableFuture&lt;StockQuotesResult&gt; stockQuotesResultCompletableFuture</span>
+<span class="fc" id="L85">            = CompletableFuture.supplyAsync(new Supplier&lt;StockQuotesResult&gt;() {</span>
+            @Override
+            public StockQuotesResult get() {
+<span class="fc" id="L88">                List&lt;StockQuote&gt; stockQuotes = new ArrayList&lt;&gt;();</span>
+<span class="fc" id="L89">                boolean hasError = false;</span>
+<span class="fc" id="L90">                String errorMessage = null;</span>
+<span class="fc" id="L91">                Set&lt;String&gt; symbolsSet = new HashSet&lt;&gt;(symbols);</span>
+<span class="fc" id="L92">                Set&lt;String&gt; symbolsVisited = new HashSet&lt;&gt;();</span>
+
+                String[] nextRecord;
+                int[] colIndex;
+                try {
+                    // header
+<span class="fc" id="L98">                    nextRecord = csvReader.readNext();</span>
+<span class="fc" id="L99">                    colIndex = getColIndex(nextRecord);</span>
+
+                    // check symbol &amp; date
+<span class="fc bfc" id="L102" title="All 2 branches covered.">                    for (int i = 0; i &lt; 2; i++) {</span>
+<span class="fc bfc" id="L103" title="All 2 branches covered.">                        if (colIndex[i] == -1) {</span>
+<span class="fc" id="L104">                            throw new CompletionException(</span>
+                                new IOException(&quot;Column &quot; + TARGET_COL[i] +
+                                    &quot; is missing from CSV file.&quot;));
+                        }
+                    }
+
+<span class="fc bfc" id="L110" title="All 2 branches covered.">                    while ((nextRecord = csvReader.readNext()) != null) {</span>
+<span class="fc" id="L111">                        String symbol = nextRecord[colIndex[0]];</span>
+<span class="pc bpc" id="L112" title="1 of 2 branches missed.">                        if (!symbolsSet.contains(symbol)) continue;</span>
+<span class="fc" id="L113">                        symbolsVisited.add(symbol);</span>
+
+<span class="fc" id="L115">                        LocalDate date = LocalDate.parse(nextRecord[colIndex[1]]);</span>
+
+                        // open, high, low
+<span class="fc" id="L118">                        Double[] nullables = new Double[3];</span>
+<span class="fc bfc" id="L119" title="All 2 branches covered.">                        for (int i = 2; i &lt; colIndex.length - 1; i++) {</span>
+<span class="pc bpc" id="L120" title="1 of 2 branches missed.">                            String nullableStr = colIndex[i] != -1 ?</span>
+<span class="pc" id="L121">                                nextRecord[colIndex[i]] : null;</span>
+<span class="fc bfc" id="L122" title="All 2 branches covered.">                            nullables[i - 2] = StringUtils.isNotBlank(nullableStr) ?</span>
+<span class="fc" id="L123">                                Double.parseDouble(nullableStr) : null;</span>
+                        }
+
+<span class="fc" id="L126">                        double close = Double.parseDouble(nextRecord[colIndex[5]]);</span>
+
+<span class="fc" id="L128">                        stockQuotes.add(new StockQuote(symbol, date, nullables[0],</span>
+                            close, nullables[1], nullables[2]));
+<span class="fc" id="L130">                    }</span>
+
+<span class="nc" id="L132">                } catch (IOException e) {</span>
+<span class="nc" id="L133">                    throw new CompletionException(e);</span>
+<span class="fc" id="L134">                }</span>
+
+                // check symbols that haven't seen
+<span class="fc" id="L137">                symbolsSet.removeAll(symbolsVisited);</span>
+<span class="fc bfc" id="L138" title="All 2 branches covered.">                if (symbolsSet.size() != 0) {</span>
+<span class="fc" id="L139">                    hasError = true;</span>
+<span class="fc" id="L140">                    StringBuilder missingSymbol = new StringBuilder();</span>
+<span class="fc bfc" id="L141" title="All 2 branches covered.">                    for (String noSymbol : symbolsSet) {</span>
+<span class="fc" id="L142">                        missingSymbol.append(&quot; &quot;).append(noSymbol);</span>
+<span class="fc" id="L143">                    }</span>
+<span class="fc" id="L144">                    errorMessage = &quot;Missing symbols&quot; + missingSymbol;</span>
+                }
+
+<span class="fc" id="L147">                return new StockQuotesResult(stockQuotes, errorMessage);</span>
+            }
+        });
+
+<span class="fc" id="L151">        return stockQuotesResultCompletableFuture;</span>
+    }
+
+    @Override
+    public void closeConnection() throws IOException {
+<span class="nc" id="L156">        csvReader.close();</span>
+<span class="nc" id="L157">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
