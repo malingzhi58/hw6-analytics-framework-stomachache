@@ -4,7 +4,13 @@ Our team has two members, Lingzhi Ma and Zouyiyun Peng. we build on [team deadli
 
 ## Get Started
 
-This project is using Spring Boot as backend and React as the frontend.
+This project is using Spring Boot as backend and React as the frontend. Besides, it also use python to get data. So before starting the project, make sure you have installed python in your local machine.
+
+&nbsp;
+Then to install this python package, execute the following cmd in cmd line.
+```python
+pip install yfinance
+```
 
 ### Backend
 
@@ -24,9 +30,9 @@ Change directory to the frontend and start the React on <http://localhost:3000/>
 cd frontend
 npm install
 npm start
-``` 
+```
 
-## Two data plugins:
+## Two added data plugins:
 
 -   YahooPyCSVDataPlugin
     (src\main\java\deadlinefighters\analyticsframework\plugin\data\YahooPyCSVDataPlugin.java)
@@ -34,7 +40,7 @@ npm start
 -   MarketPyCSVPlugin
     (src\main\java\deadlinefighters\analyticsframework\plugin\data\MarketPyCSVPlugin.java)
 
-## One visualization plugin:
+## One added visualization plugin:
 
 -   BubbleChartVisualizationPlugin
     (src\main\java\deadlinefighters\analyticsframework\plugin\visualization\BubbleChartVisualizationPlugin.java)
@@ -46,7 +52,7 @@ npm start
 ### YahooPyCSVDataPlugin
 
 The first data plugin uses yahoo python api https://algotrading101.com/learn/yahoo-finance-api-guide/.
-After launching the project as the following says, we can choose yahoo python plugin in the Plugin drop-down box. 
+After launching the project as the following says, we can choose yahoo python plugin in the Plugin drop-down box.
 
 The arg is the symbol of the stock. So we can enter the same thing for both arg and symbol fields (For symbol, it must be lower case).
 ![screenshot](pics/pic1.png)
