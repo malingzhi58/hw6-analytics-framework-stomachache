@@ -13,7 +13,7 @@ import java.util.List;
 public class BubbleChartVisualizationPlugin implements VisualizationPlugin {
 
     private Framework framework;
-    private static final String NAME = "Bubble chart (1-2 stocks)";
+    private static final String NAME = "Bubble chart";
 
     @Override
     public String getName() {
