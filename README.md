@@ -45,7 +45,6 @@ npm start
 -   BubbleChartVisualizationPlugin
     (src\main\java\deadlinefighters\analyticsframework\plugin\visualization\BubbleChartVisualizationPlugin.java)
 
-&nbsp;
 
 ## Plugin detailes
 
@@ -69,7 +68,6 @@ The arg field should be filled with an api key from the website and the symbol f
 For the new visualization plugin, select bubble chart button in the Visualization part. Then a bubble chart suggesting the daily stock price differences will show, which presents the difference between open price and close price (ie: If the stock price increases, the difference will be greater than 0 and vice versa.)
 ![screenshot](pics/pic2.png)
 
-&nbsp;
 
 # Stock Price Analytic Framework
 
