@@ -6,5 +6,6 @@ dist/
 public/js/app.js
 .idea/
 
-/target
-/.vscode
+target
+.vscode
+.ipynb_checkpoints
