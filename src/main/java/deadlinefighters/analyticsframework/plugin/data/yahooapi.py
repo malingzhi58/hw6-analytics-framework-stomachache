@@ -1,15 +1,15 @@
 import sys
 import yfinance as yf
-import pip
-
-def install(package):
-    if hasattr(pip, 'main'):
-        pip.main(['install', package])
-    else:
-        pip._internal.main(['install', package])
-
+# import subprocess
+# import sys
+#
+# def install(package):
+#     subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+from pip._internal import main as pipmain
+packname='yfinance'
+pipmain(['install', packname])
 # Example
-install('yfinance')
+# install('yfinance')
 # print("calling python function with parameters:")
 # print(sys.argv[1])
 company = yf.Ticker(sys.argv[1])

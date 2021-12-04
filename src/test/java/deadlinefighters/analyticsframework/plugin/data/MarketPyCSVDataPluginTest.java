@@ -59,7 +59,7 @@ public class MarketPyCSVDataPluginTest {
     @Test
     void testGetStockQuotesPy() {
 //        String arg =   "aapl";
-        String arg =   "2ab6c46a6a6dd82ccc8d6e33b362c0ea";
+        String arg =   "your api key";
         assertDoesNotThrow(() ->
             pyCSVDataPlugin.openConnection(arg));
 
