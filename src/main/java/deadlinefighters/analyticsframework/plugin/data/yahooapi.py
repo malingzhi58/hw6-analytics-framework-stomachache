@@ -1,6 +1,15 @@
 import sys
-
 import yfinance as yf
+import pip
+
+def install(package):
+    if hasattr(pip, 'main'):
+        pip.main(['install', package])
+    else:
+        pip._internal.main(['install', package])
+
+# Example
+install('yfinance')
 # print("calling python function with parameters:")
 # print(sys.argv[1])
 company = yf.Ticker(sys.argv[1])
