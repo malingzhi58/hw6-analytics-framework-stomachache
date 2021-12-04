@@ -87,6 +87,56 @@ class CSVFileDataPluginTest {
     }
 
     @Test
+    void testGetStockQuotesPy() {
+        String arg = BASE_PATH + "/tmp.csv";
+        assertDoesNotThrow(() ->
+            csvFileDataPlugin.openConnection(arg));
+
+        List<String> symbols = Arrays.asList("aapl");
+        CompletableFuture<StockQuotesResult> stockQuotesResultCompletableFuture
+            = csvFileDataPlugin.getStockQuotes(symbols);
+        StockQuotesResult stockQuotesResult =
+            stockQuotesResultCompletableFuture.join();
+        List<StockQuote> stockQuotes = stockQuotesResult.getStockQuotes();
+
+        assertFalse(stockQuotesResult.hasError());
+        assertNull(stockQuotesResult.getErrorMessage());
+//        assertEquals(3, stockQuotes.size());
+//
+//        assertEquals("AAPL", stockQuotes.get(0).getSymbol());
+//        assertEquals(LocalDate.parse("2021-11-20"), stockQuotes.get(0).getDate());
+//        assertEquals(2.5, stockQuotes.get(0).getClose());
+//        assertNull(stockQuotes.get(0).getLow());
+//        assertNull(stockQuotes.get(0).getHigh());
+//        assertNull(stockQuotes.get(0).getOpen());
+    }
+
+    @Test
+    void testGetStockQuotesPy2() {
+        String arg = BASE_PATH + "/tmp2.csv";
+        assertDoesNotThrow(() ->
+            csvFileDataPlugin.openConnection(arg));
+
+        List<String> symbols = Arrays.asList("aapl");
+        CompletableFuture<StockQuotesResult> stockQuotesResultCompletableFuture
+            = csvFileDataPlugin.getStockQuotes(symbols);
+        StockQuotesResult stockQuotesResult =
+            stockQuotesResultCompletableFuture.join();
+        List<StockQuote> stockQuotes = stockQuotesResult.getStockQuotes();
+
+        assertFalse(stockQuotesResult.hasError());
+        assertNull(stockQuotesResult.getErrorMessage());
+//        assertEquals(3, stockQuotes.size());
+//
+//        assertEquals("AAPL", stockQuotes.get(0).getSymbol());
+//        assertEquals(LocalDate.parse("2021-11-20"), stockQuotes.get(0).getDate());
+//        assertEquals(2.5, stockQuotes.get(0).getClose());
+        assertNotNull(stockQuotes.get(0).getLow());
+//        assertNull(stockQuotes.get(0).getHigh());
+//        assertNull(stockQuotes.get(0).getOpen());
+    }
+
+    @Test
     void testGetStockQuotesAllError() {
         String arg = BASE_PATH + "/all.csv";
         assertDoesNotThrow(() ->

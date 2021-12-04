@@ -1,68 +1,82 @@
-# hw6-analytics-framework-stomachache
+# MileStone C
+Our team has two members, Lingzhi Ma and Zouyiyun Peng. we build on [team deadlinefighter's project](https://github.com/CMU-17-214/hw6-analytics-framework-deadline-fighters).
 
-# 📜 Pokenmon collection
+We add two data plugins
+deadlinefighters.analyticsframework.plugin.data.YahooPyCSVDataPlugin
+deadlinefighters.analyticsframework.plugin.data.MarketPyCSVPlugin
+and one visualization plugin
+deadlinefighters.analyticsframework.plugin.visualization.BubbleChartVisualizationPlugin
 
-## Start the project
+The first data plugin uses yahoo python api https://algotrading101.com/learn/yahoo-finance-api-guide/.
+After launching the project as the following says, we can choose yahoo python plugin. The arg is the symbol of the stock. So we can enter the same thing for both arg and symbol fields (For symbol, it must be lower case). Then we can see this stock's visualization. The bubble chart, the third one, is our new visualization graph.
+![screenshot](pics/pic1.png)
+![screenshot](pics/pic2.png)
 
-To start the project, simply run the following command in the terminal:
+The second data plugin uses marketstack api https://marketstack.com/documentation.
+The arg field should be filled with an api key from the website and the symbol field is the stock's symbol.
+![screenshot](pics/pic3.png)
 
-```bash
+
+# Stock Price Analytic Framework
+
+## Get Started
+This project is using Spring Boot as backend and React as the frontend.
+### Backend
+Install the game and run the backend on localhost:8080.
+```commandline
+mvn clean install
+mvn spring-boot:run
+```
+
+### Frontend
+You need [Node.js](https://nodejs.org/en/download/) installed to run the frontend.
+Change directory to the frontend and start the React on <http://localhost:3000/>.
+
+```commandline
+cd frontend
 npm install
-npm run dev
+npm start
 ```
 
-Then the project will be running at http://localhost:3000/.
 
-&nbsp;
+## Idea
+The idea is to provide an analytics framework for users to analyze stock prices through data retrieval, processing and visualization.
 
-## Extend the project
+By providing data plugins and visualization plugins interfaces, we allow users to retrieve stock quotes from different sources (provided by data plugins) and shows different results in different ways (provided by the visualization plugins).
 
-### Data Plugin
+In addition, the framework performs data processing that includes merging stock quotes from different data sources and aggregating them by different time period.
 
-To add new feature to the project, a new data plugin should be implemented DataPluginInterface, which contains getData, parseData and prepareData methods.
+## How to extend
+Both data plugins and visualization plugins can be extended.
 
-- getData method: receives optional parameters and is used to query the external apis asynchronously.
+To extend the data plugins, implement the `DataPlugin` interface and add the class name into `src/main/resources/META-INT/services/deadlinefighters.analyticsframework.framework.core.DataPlugin`.
 
-- parseData method: receives the query data and conducts data cleaning and formatting.
+To extend the data plugins, implement the `VisualizationPlugin` interface and add the class name into the according file under `src/main/resources/META-INT/services/deadlinefighters.analyticsframework.framework.core.VisualizationPlugin`.
 
-- prepareData method: combines above two method, and returns a Promise object.
+Data plugins could provide *a list of stock prices with symbol, open price, close price, high price, low price, date*.
 
-And after finishing implementing the DataPluginInterface and constructing the data plugin, do not forget to register it in the routes as an internal api.
+Data plugins:
+- **(Done)** Local file (e.g. csv)
+- **(Done)** Web APIs. Free time series stock API like [Alpha vantage](https://www.alphavantage.co/).
+- Database
 
-For example, below is how do we register the getPokemonListPlugin:
+Visualization plugins:
 
-```typescript
-router.get("/api/getpokemonlist", (req, res, next) => {
-  const pokemonList = new getPokemonListPlugin();
-  pokemonList.prepareData().then((r) => {
-    // call the prepareData method to query and parse data
-    res.json(r); // send the parsed data to the result
-  });
-});
-```
+*[Plotly](https://plotly.com/) is used in this framework for visualization plugins.*
+- **(Done)** Candlestick chart displaying the open, close, high, low price for a specific symbol during a time period.
+- **(Done)** Line chart displaying stock comparison between 2+ stocks.
+- Bubble chart displaying changes to different stocks within a specific time period.
+- Bar chart displaying changes to different stocks in a single day
 
-&nbsp;
+## How to use the GUI
+1. Select data plugins
+    1. For CSV local file plugin, the path to csv file should be provided in the `arg` field, and the file follow the format in [src/main/resources/daily_IBM.csv](src/test/resources/all.csv)  (note: volume column in the file is ignored in the plugin)
+    2. For the Alpha vantage plugin, you should register for a free API key from the web page, and paste the key in the `Arg` field
+    3. Add the symbols that you want to extract in the Symbols field, separated by comma if multiple symbols are needed
+2. Press submit
+3. Select the visualization plugin you want
+    1. The candlestick chart supports only 1 stock, and uses daily data
+    2. The line chart supports 1 or 2 stocks, and uses the aggregated weekly data
 
-### Visualization Plugin
-
-Since we use React.js framework as frontend, we followed the functional component principle, where all the components are encapsulated in functions, not in classes. To add a new visualization plugin, you will need implement a functional component. And then add the new component in the App.tsx.
-
-&nbsp;
-
-## API Documentation
-
-### barchart
-
-After call this api, it can initialize a BarChartDataPlugin class. Its prepareData function will be called to prepare data and send the data to visualization plugin. After the front end receives the data, it will generate the following chart. It shows the number of pokemons in each type.  
-![alt text](./pics/pic5.png)
-### topfireweight
-
-After call this api, it can initialize a TopBarChartDataPlugin class. Its prepareData function will be called to prepare data and send the data to visualization plugin. It shows the top 10 heaviest file type pokemon.
-![alt text](./pics/pic6.png)
-
-### getpokemonlist
-
-This api uses the getPokemonListPlugin plugin, where we query list of Pokemons data from the PokemonClient. No input is needed. The output is a NamedAPIResourceList object, which contains series of pokemon data.
-![alt text](./pics/pic3.png)
-![alt text](./pics/pic4.png)
-&nbsp;
+Example:
+![screenshot](pics/screenshot.png)

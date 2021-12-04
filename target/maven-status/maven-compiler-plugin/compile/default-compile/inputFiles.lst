@@ -8,6 +8,8 @@ E:\cmu\F21\17514\hw6-analytics-framework-stomachache\src\main\java\deadlinefight
 E:\cmu\F21\17514\hw6-analytics-framework-stomachache\src\main\java\deadlinefighters\analyticsframework\framework\model\DataPluginInput.java
 E:\cmu\F21\17514\hw6-analytics-framework-stomachache\src\main\java\deadlinefighters\analyticsframework\plugin\visualization\VisualizationHelper.java
 E:\cmu\F21\17514\hw6-analytics-framework-stomachache\src\main\java\deadlinefighters\analyticsframework\framework\model\StockQuotesResult.java
+E:\cmu\F21\17514\hw6-analytics-framework-stomachache\src\main\java\deadlinefighters\analyticsframework\plugin\data\MarketPyCSVPlugin.java
+E:\cmu\F21\17514\hw6-analytics-framework-stomachache\src\main\java\deadlinefighters\analyticsframework\plugin\data\YahooPyCSVDataPlugin.java
 E:\cmu\F21\17514\hw6-analytics-framework-stomachache\src\main\java\deadlinefighters\analyticsframework\plugin\visualization\CandlestickChartVisualizationPlugin.java
 E:\cmu\F21\17514\hw6-analytics-framework-stomachache\src\main\java\deadlinefighters\analyticsframework\Application.java
 E:\cmu\F21\17514\hw6-analytics-framework-stomachache\src\main\java\deadlinefighters\analyticsframework\plugin\data\WebAPIAlphaVantageDataPlugin.java
@@ -18,4 +20,5 @@ E:\cmu\F21\17514\hw6-analytics-framework-stomachache\src\main\java\deadlinefight
 E:\cmu\F21\17514\hw6-analytics-framework-stomachache\src\main\java\deadlinefighters\analyticsframework\framework\core\DataPlugin.java
 E:\cmu\F21\17514\hw6-analytics-framework-stomachache\src\main\java\deadlinefighters\analyticsframework\framework\model\AggregatedStockQuotes.java
 E:\cmu\F21\17514\hw6-analytics-framework-stomachache\src\main\java\deadlinefighters\analyticsframework\framework\model\StockQuote.java
+E:\cmu\F21\17514\hw6-analytics-framework-stomachache\src\main\java\deadlinefighters\analyticsframework\plugin\data\Demo.java
 E:\cmu\F21\17514\hw6-analytics-framework-stomachache\src\main\java\deadlinefighters\analyticsframework\helper\ObjectMapperInstance.java

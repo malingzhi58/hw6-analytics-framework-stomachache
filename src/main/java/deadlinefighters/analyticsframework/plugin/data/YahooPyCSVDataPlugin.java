@@ -10,43 +10,26 @@ import deadlinefighters.analyticsframework.framework.model.StockQuotesResult;
 import org.apache.commons.io.input.BOMInputStream;
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.function.Supplier;
 
 /**
- * Import data from CSV(comma-separated values) file
- *
- * It should have the following columns:
- * symbol,date,open,high,low,close
- *
- * Symbol, date and close are required columns
- *
- * Date format: yyyy-MM-dd
- *
- * Example: src/main/resources/daily_IBM.csv (note: volume is ignored)
+ * created by @author Lingzhi Ma.
+ * email: lingzhim@andrew.cmu.edu
+ * andrewId: lingzhim
  */
-public class CSVFileDataPlugin implements DataPlugin {
-
-    private static final String NAME = "CSV local file";
+public class YahooPyCSVDataPlugin implements DataPlugin {
+    private static final String NAME = "yahoo python CSV local file";
     private static final String[] TARGET_COL = {"symbol", "date",
         "open", "high", "low", "close"};
 
     private Framework framework;
     private CSVReader csvReader;
-
+    private String path = "src/main/resources/";
 
     @Override
     public String getName() {
@@ -60,13 +43,36 @@ public class CSVFileDataPlugin implements DataPlugin {
 
     @Override
     public void openConnection(String arg) throws IOException {
-        File file = new File(arg);
-        InputStream targetStream = new FileInputStream(file);
-        Reader reader = new InputStreamReader(new BOMInputStream(targetStream), "UTF-8");
-        csvReader = new CSVReaderBuilder(reader)
-            // both two separators, two quotes will be treated as null
-            .withFieldAsNull(CSVReaderNullFieldIndicator.BOTH)
-            .build();
+        String filepath = path + "tmp" + arg + ".csv";
+        createCSV(arg);
+        // Create an object of filereader
+        // class with CSV file as a parameter.
+        FileReader filereader = new FileReader(filepath);
+
+        // create csvReader object passing
+        // file reader as a parameter
+        csvReader = new CSVReader(filereader);
+    }
+
+    public void createCSV(String arg) {
+        arg = arg.toLowerCase();
+        String[] cmd = {
+            "python",
+            "src/main/java/deadlinefighters/analyticsframework/plugin/data/yahooapi.py",
+            arg,
+        };
+        Process p = null;
+        try {
+            p = Runtime.getRuntime().exec(cmd);
+            p.waitFor();
+            BufferedReader in = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String strCurrentLine;
+            while ((strCurrentLine = in.readLine()) != null) {
+                System.out.println(strCurrentLine);
+            }
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     protected int[] getColIndex(String[] headers) {
@@ -96,6 +102,9 @@ public class CSVFileDataPlugin implements DataPlugin {
                 try {
                     // header
                     nextRecord = csvReader.readNext();
+                    for (int i = 0; i < nextRecord.length; i++) {
+                        nextRecord[i] = nextRecord[i].toLowerCase();
+                    }
                     colIndex = getColIndex(nextRecord);
 
                     // check symbol & date
